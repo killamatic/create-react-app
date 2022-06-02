@@ -1,0 +1,44 @@
+TODO:
+//      set it so that when selecting a tile will place whatever is set for play for all clicks
+
+//      using the tiles already on the screen, make it so that there is a selection of buttons that 
+allow placing a certain kind of tile
+
+//      finish the resources component
+
+// tie the tile putting to the resources component, so that when a tile is placed the resources 
+increase.
+
+//add a rudementary clock
+
+every 10 seconds check tiles to add the amount to resources
+
+change value so that instead of having squares or anything store a string value, have it store the index associated with the value
+
+make the tiles selectable
+
+when selected have a little info at the bottom that shows the type of tile selected
+
+add a output button display that shows a cross
+
+blur out the parts of the cross that do not have selectability
+
+make the right buttons be on top of eachother
+
+
+
+
+
+
+Personal todo:
+//      clean dishes from desk
+//      remove all desk things I have not used in a week
+//      put cloths in closet
+//      laundry
+pull out all camping things and assign to correct areas
+-winter gear
+-clothing scrap
+-
+
+
+
