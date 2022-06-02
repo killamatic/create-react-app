@@ -130,19 +130,8 @@ export default class Game extends React.Component {
     //anytime a square is changed
     //change state so that the grid is populated with correct kind of value
     squareUpdated(index){
-        this.consolePrint("1: squareUpdated, square at position " + index);
-        //check to make sure the square does not already have the type indecated by play
-        if(this.state.constTiles[this.state.play] !== this.state.squares[index]){
-            this.consolePrint("1.1: they are different, the update should go here");
-            //update the square array with the new value at index position
-            this.setSquareValue(index, this.state.constTiles[this.state.play]);
-        }
-        else{
-            this.consolePrint("1.2: the updated type: " + this.state.constTiles[this.state.play] + ", the current type: " + this.state.squares[index] + ", they are the same, do nothing");
-        }
-
-
-        // this.updateResourcesValue(this.state.play, this.state.constResourceIncrement[this.state.play]);
+        //update the square array with the new value at index position
+        this.setSquareValue(index, this.state.constTiles[this.state.play]);
     }
 
     //TODO: only call squareUdated when the square is updated
@@ -150,7 +139,16 @@ export default class Game extends React.Component {
     //any time a square was clicked
     //selection of the square has happened
     squareSelected(index){
-        this.squareUpdated(index);
+        if(this.state.constTiles[this.state.play] !== this.state.squares[index]){
+            this.consolePrint("1.1: they are different, the update should go here");
+            this.squareUpdated(index);
+        }
+        else{
+            this.consolePrint("1.2: the updated type: " + this.state.constTiles[this.state.play] + ", the current type: " + this.state.squares[index] + ", they are the same, do nothing");
+        }
+
+
+        
     }
 
     //TODO: go through the tilesCount and update resources array

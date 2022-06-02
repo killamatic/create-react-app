@@ -6,12 +6,12 @@ allow placing a certain kind of tile
 
 //      finish the resources component
 
-// tie the tile putting to the resources component, so that when a tile is placed the resources 
-increase.
+//      tie the tile putting to the resources component, so that when a 
+tile is placed the resources increase.
 
-//add a rudementary clock
+//      add a rudementary clock
 
-every 10 seconds check tiles to add the amount to resources
+//      every 10 seconds check tiles to add the amount to resources
 
 change value so that instead of having squares or anything store a string value, have it store the index associated with the value
 
@@ -38,7 +38,10 @@ Personal todo:
 pull out all camping things and assign to correct areas
 -winter gear
 -clothing scrap
--
-
-
+-sleep
+-fire
+-food
+-water
+-bags
+-hygiene
 
