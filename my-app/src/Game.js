@@ -161,6 +161,9 @@ export default class Game extends React.Component {
         //how many resources to update
         this.consolePrint("ResourcesUpdated: tilesCount: " + this.state.tilesCount);
         this.updateResourcesValue(0, this.state.tilesCount[0] * this.state.constResourceIncrement[0])
+        this.updateResourcesValue(1, this.state.tilesCount[1] * this.state.constResourceIncrement[1])
+        this.updateResourcesValue(2, this.state.tilesCount[2] * this.state.constResourceIncrement[2])
+        this.updateResourcesValue(3, this.state.tilesCount[3] * this.state.constResourceIncrement[3])
 
         //foreach count element in output array
         //multiply element by resourceIncrement[index]
