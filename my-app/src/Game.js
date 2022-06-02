@@ -25,7 +25,7 @@ export default class Game extends React.Component {
             //What is currently selected as a type to be put as a peice on the game board
             play: 0,
             //a turn counter
-            turn: 0,
+            selection: 0,
 
             //timer state holding
             minutes: 0,
@@ -66,18 +66,17 @@ export default class Game extends React.Component {
 
     }
 
-    //At location i in the resources array, assign the value of 'value'
-    setResourcesValue(i, value){
-        const resources = this.state.resources.slice();
-        resources[i] = value;
-        this.setState({resources: resources});
-    }
-
     //At location i in the resources array, add the value given
     updateResourcesValue(i, value){
-        const replacement = this.state.resources.slice();
-        replacement[i] = this.state.resources[i] + value;
-        this.setState({resources: replacement});
+        this.setState(state => {
+            let resources = [...state.resources];
+            this.consolePrint("3.0: replacement: " + resources[i] + "\nvalue: " + value);
+            resources[i] = state.resources[i] + value;
+            this.consolePrint("3.1: replacement: " + resources[i]);
+            return ({
+                resources
+            });
+        });
     }
 
     //When the square value has to be updated to the new value
@@ -134,11 +133,11 @@ export default class Game extends React.Component {
         this.setSquareValue(index, this.state.constTiles[this.state.play]);
     }
 
-    //TODO: only call squareUdated when the square is updated
     //TODO: add the popup to the right that gives the squares information
     //any time a square was clicked
     //selection of the square has happened
     squareSelected(index){
+        this.setState({selection: index});
         if(this.state.constTiles[this.state.play] !== this.state.squares[index]){
             this.consolePrint("1.1: they are different, the update should go here");
             this.squareUpdated(index);
@@ -146,9 +145,6 @@ export default class Game extends React.Component {
         else{
             this.consolePrint("1.2: the updated type: " + this.state.constTiles[this.state.play] + ", the current type: " + this.state.squares[index] + ", they are the same, do nothing");
         }
-
-
-        
     }
 
     //TODO: go through the tilesCount and update resources array
@@ -162,6 +158,10 @@ export default class Game extends React.Component {
         this.updateResourcesValue(1, this.state.tilesCount[1] * this.state.constResourceIncrement[1])
         this.updateResourcesValue(2, this.state.tilesCount[2] * this.state.constResourceIncrement[2])
         this.updateResourcesValue(3, this.state.tilesCount[3] * this.state.constResourceIncrement[3])
+
+        // this.state.tilesCount.forEach((element, index) => {
+        //     this.updateResourcesValue(index, element * this.state.constResourceIncrement[index]);
+        // });
 
         //foreach count element in output array
         //multiply element by resourceIncrement[index]
