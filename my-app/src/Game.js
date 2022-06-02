@@ -129,8 +129,17 @@ export default class Game extends React.Component {
     //anytime a square is changed
     //change state so that the grid is populated with correct kind of value
     squareUpdated(index){
-        //update the square array with the new value at index position
-        this.setSquareValue(index, this.state.constTiles[this.state.play]);
+
+        if(this.state.constTiles[this.state.play] !== this.state.squares[index]){
+            this.consolePrint("1.1: they are different, the update should go here");
+            //update the square array with the new value at index position
+            this.setSquareValue(index, this.state.constTiles[this.state.play]);
+        }
+        else{
+            this.consolePrint("1.2: the updated type: " + this.state.constTiles[this.state.play] + ", the current type: " + this.state.squares[index] + ", they are the same, do nothing");
+        }
+
+
     }
 
     //TODO: add the popup to the right that gives the squares information
@@ -138,16 +147,14 @@ export default class Game extends React.Component {
     //selection of the square has happened
     squareSelected(index){
         this.setState({selection: index});
-        if(this.state.constTiles[this.state.play] !== this.state.squares[index]){
-            this.consolePrint("1.1: they are different, the update should go here");
-            this.squareUpdated(index);
-        }
-        else{
-            this.consolePrint("1.2: the updated type: " + this.state.constTiles[this.state.play] + ", the current type: " + this.state.squares[index] + ", they are the same, do nothing");
-        }
+        this.consolePrint("selected square: " + index);
     }
 
-    //TODO: go through the tilesCount and update resources array
+    updateButtonHandler(){
+        this.consolePrint("clicked update button");
+        this.squareUpdated(this.state.selection);
+    }
+
     //any time the clock says time to update
     //on specified clock tick, increase the resources array 
     resourcesUpdated(){
@@ -166,15 +173,6 @@ export default class Game extends React.Component {
         //foreach count element in output array
         //multiply element by resourceIncrement[index]
         //add to resources[index]
-
-
-
-        // this.state.squares.forEach((element) => {
-        //     if(element !== null)
-        //     {
-        //         this.consolePrint("looping, value: " + element);
-        //     };
-        // });
     }
 
     componentDidMount() {
@@ -261,6 +259,11 @@ export default class Game extends React.Component {
                             {this.state.tilesCount[3]}
                         </button>
                     </div>
+                    <button
+                        onClick={() => {this.updateButtonHandler()}}
+                    >
+                        update selection
+                    </button>
                 </div>
             
                 <button>start time</button>
