@@ -1,5 +1,6 @@
 import React from 'react';
 import Board from './Board.js';
+import TopBar from './TopBar.js';
 import Resource from './Resource.js'; 
 import './index.css';
 //import Timer from './Timer.js';
@@ -13,8 +14,10 @@ export default class Game extends React.Component {
             resources: [20,7,10,20],
             //not changing, holds the amount of resources that a tile will contribute to the resources array
             constResourceIncrement: [5,7,10,20],
+            //the amount of money that should be gained for selling one of each kind of resource
+            sellValue: [1,2,3,4],
             //resource names
-            //resourceNames: ["Slag","Shiny Rocks", "Copper"],
+            resourceNames: ["Slag","Shiny Rocks", "Copper", "Money"],
             //the amount of resources needed to set each kind of tile
             constTileCost: [5,7,10,20],
             //not changing, All of the possible tiles that can be in the game board
@@ -31,6 +34,9 @@ export default class Game extends React.Component {
             //a turn counter
             selection: 0,
 
+            //location in resources array that stores money
+            moneyIndex: 3,
+
             //timer state holding
             minutes: 0,
             seconds: 0,
@@ -46,7 +52,19 @@ export default class Game extends React.Component {
     }
 
     resourcesString(index){
-        return "Resource " + this.state.constTiles[index] + " " + this.state.resources[index] + " | ";
+        return this.state.resourceNames[index] + " " + this.state.resources[index] + " | ";
+    }
+
+    sellResource(index, amount){
+        //if there is enough resource to sell the amount selected, sell it
+        if(this.state.resources[index] >= amount){
+            //decrease the amount of resource sold
+            this.removeValueToResources(index, amount);
+            //figure out the amount of money that should be gained
+            let moneyGained = this.state.sellValue[index] * amount;
+            //increase money
+            this.addValueToResources(this.state.moneyIndex, moneyGained);
+        };
     }
 
     //set play to be the kind of tile from tiles that was selected
@@ -233,12 +251,49 @@ export default class Game extends React.Component {
         const { minutes, seconds } = this.state
       return (
         <div>
-            {/* TODO: set this to use the Resources component */}
-            <div className="row-display">
-            <Resource value= {this.resourcesString(0)}/>
-            <Resource value= {this.resourcesString(1)}/>
-            <Resource value= {this.resourcesString(2)}/>
-            <Resource value= {this.resourcesString(3)}/>
+            <div 
+            className="row-display" 
+            >
+                <Resource value= {this.resourcesString(0)}/>
+                <Resource value= {this.resourcesString(1)}/>
+                <Resource value= {this.resourcesString(2)}/>
+                <Resource value= {this.resourcesString(3)}/>
+                {/* <div>
+                    <Resource value= {this.props.resourcesString(0)}/>
+                    <button
+                    onClick= {() => {this.props.sellResource(0,1)}}
+                    >sell<br />1</button>                
+                    <button
+                    onClick= {() => {this.props.sellResource(0,this.props.resources[0])}}
+                    >sell<br />All</button>
+                </div>
+                <div>
+                    <Resource value= {this.props.resourcesString(1)}/>
+                    <button
+                    onClick= {() => {this.props.sellResource(1,1)}}
+                    >sell<br />1</button>                
+                    <button
+                    onClick= {() => {this.props.sellResource(1,this.props.resources[1])}}
+                    >sell<br />All</button>
+                </div>
+                <div>
+                    <Resource value= {this.props.resourcesString(2)}/> 
+                    <button
+                    onClick= {() => {this.props.sellResource(2,1)}}
+                    >sell<br />1</button>                
+                    <button
+                    onClick= {() => {this.props.sellResource(2,this.props.resources[2])}}
+                    >sell<br />All</button>
+                </div>
+                <div>
+                    <Resource value= {this.props.resourcesString(3)}/>
+                    <button
+                    onClick= {() => {this.props.sellResource(0,1)}}
+                    >sell<br />1</button>                
+                    <button
+                    onClick= {() => {this.props.sellResource(0,this.props.resources[0])}}
+                    >sell<br />All</button>
+                </div> */}
             </div>
             <div>
                 <div className="row-display">

@@ -19,7 +19,11 @@ change value so that instead of having squares or anything store a string value,
 
 //      make the tile selected show that it is selected
 
-make setting a tile cost resources
+//      make setting a tile cost resources
+
+work on make a topbar component
+
+selection indication on button for square type select
 
 make resource increment array have each position own an array of key value pairs of resources to add
 
@@ -35,6 +39,7 @@ blur out the parts of the cross that do not have selectability
 
 make the right buttons be on top of eachother
 
+make sellValue better represent sellValue and change resourceIncrement to be incresing by 1's
 
 
 
