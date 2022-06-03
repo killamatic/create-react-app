@@ -15,11 +15,21 @@ tile is placed the resources increase.
 
 change value so that instead of having squares or anything store a string value, have it store the index associated with the value
 
-make the tiles selectable
+//      make the tiles selectable
+
+//      make the tile selected show that it is selected
+
+make setting a tile cost resources
+
+make resource increment array have each position own an array of key value pairs of resources to add
+
+start with enough A resource to add one A tile
+
+make square unselect on click again
 
 when selected have a little info at the bottom that shows the type of tile selected
 
-add a output button display that shows a cross
+add a output button display that shows a cross for piping to other squares
 
 blur out the parts of the cross that do not have selectability
 

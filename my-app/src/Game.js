@@ -10,9 +10,13 @@ export default class Game extends React.Component {
         super(props);
         this.state = {
             //store the count of how many resources you have available
-            resources: Array(4).fill(0),
+            resources: [20,7,10,20],
             //not changing, holds the amount of resources that a tile will contribute to the resources array
             constResourceIncrement: [5,7,10,20],
+            //resource names
+            //resourceNames: ["Slag","Shiny Rocks", "Copper"],
+            //the amount of resources needed to set each kind of tile
+            constTileCost: [5,7,10,20],
             //not changing, All of the possible tiles that can be in the game board
             constTiles: ['A','B','C','D'],
             //update on updating a tile, for easy calculation of resource increase
@@ -67,11 +71,24 @@ export default class Game extends React.Component {
     }
 
     //At location i in the resources array, add the value given
-    updateResourcesValue(i, value){
+    addValueToResources(i, value){
         this.setState(state => {
             let resources = [...state.resources];
             this.consolePrint("3.0: replacement: " + resources[i] + "\nvalue: " + value);
             resources[i] = state.resources[i] + value;
+            this.consolePrint("3.1: replacement: " + resources[i]);
+            return ({
+                resources
+            });
+        });
+    }
+
+    //At location i in the resources array, remove the value given
+    removeValueToResources(i, value){
+        this.setState(state => {
+            let resources = [...state.resources];
+            this.consolePrint("3.0: replacement: " + resources[i] + "\nvalue: " + value);
+            resources[i] = state.resources[i] - value;
             this.consolePrint("3.1: replacement: " + resources[i]);
             return ({
                 resources
@@ -105,8 +122,6 @@ export default class Game extends React.Component {
                     this.consolePrint("2.1.2: the element: "+ element + " is equal to value: "+ value + " and the index of constTiles: " + index);
                 }
             });
-            //remove the previous value from the tilesCount array
-            //add the new value count to the tilesCount array
         }
         //the square doesn't have a value
         else{
@@ -121,19 +136,31 @@ export default class Game extends React.Component {
                 }
             });
         }
-        const squares =this.state.squares.slice();
-        squares[i] = value;
-        this.setState({squares: squares});
+
+
+        this.setState(state => {
+            let squares = [...state.squares];
+            this.consolePrint("3.0: replacement: " + squares[i] + "\nvalue: " + value);
+            squares[i] = value;
+            this.consolePrint("3.1: replacement: " + squares[i]);
+            return ({
+                squares
+            });
+        });
     }
 
     //anytime a square is changed
     //change state so that the grid is populated with correct kind of value
     squareUpdated(index){
-
         if(this.state.constTiles[this.state.play] !== this.state.squares[index]){
             this.consolePrint("1.1: they are different, the update should go here");
-            //update the square array with the new value at index position
-            this.setSquareValue(index, this.state.constTiles[this.state.play]);
+            //make sure there is enough resource to place the tile
+            if(this.state.resources[this.state.play] >= this.state.constTileCost[this.state.play]){
+                //remove cost of the tile
+                this.removeValueToResources(this.state.play, this.state.constTileCost[this.state.play])
+                //update the square array with the new value at index position
+                this.setSquareValue(index, this.state.constTiles[this.state.play]);
+            }
         }
         else{
             this.consolePrint("1.2: the updated type: " + this.state.constTiles[this.state.play] + ", the current type: " + this.state.squares[index] + ", they are the same, do nothing");
@@ -158,21 +185,12 @@ export default class Game extends React.Component {
     //any time the clock says time to update
     //on specified clock tick, increase the resources array 
     resourcesUpdated(){
-        //look through the outputs array, and use the counts to determine 
         //how many resources to update
         this.consolePrint("ResourcesUpdated: tilesCount: " + this.state.tilesCount);
-        this.updateResourcesValue(0, this.state.tilesCount[0] * this.state.constResourceIncrement[0])
-        this.updateResourcesValue(1, this.state.tilesCount[1] * this.state.constResourceIncrement[1])
-        this.updateResourcesValue(2, this.state.tilesCount[2] * this.state.constResourceIncrement[2])
-        this.updateResourcesValue(3, this.state.tilesCount[3] * this.state.constResourceIncrement[3])
-
-        // this.state.tilesCount.forEach((element, index) => {
-        //     this.updateResourcesValue(index, element * this.state.constResourceIncrement[index]);
-        // });
-
-        //foreach count element in output array
-        //multiply element by resourceIncrement[index]
-        //add to resources[index]
+        this.addValueToResources(0, this.state.tilesCount[0] * this.state.constResourceIncrement[0]);
+        this.addValueToResources(1, this.state.tilesCount[1] * this.state.constResourceIncrement[1]);
+        this.addValueToResources(2, this.state.tilesCount[2] * this.state.constResourceIncrement[2]);
+        this.addValueToResources(3, this.state.tilesCount[3] * this.state.constResourceIncrement[3]);
     }
 
     componentDidMount() {
@@ -234,27 +252,19 @@ export default class Game extends React.Component {
                     {/* right side info on the selection */}
                     <div className="game-info">
                         <div>Tile types</div>
-                        <button
-                        onClick = {() => this.selectTileType(0)}
-                        >
-                            tile type A<br />
+                        <button onClick = {() => this.selectTileType(0)}>
+                            Miner<br />
                             {this.state.tilesCount[0]}
                         </button>
-                        <button
-                        onClick = {() => this.selectTileType(1)}
-                        >
-                            tile type B<br />
+                        <button onClick = {() => this.selectTileType(1)}>
+                            Sifter<br />
                             {this.state.tilesCount[1]}
                         </button>
-                        <button
-                        onClick = {() => this.selectTileType(2)}
-                        >
-                            tile type C<br />
+                        <button onClick = {() => this.selectTileType(2)}>
+                            Smelter<br />
                             {this.state.tilesCount[2]}
                         </button>
-                        <button
-                        onClick = {() => this.selectTileType(3)}
-                        >
+                        <button onClick = {() => this.selectTileType(3)}>
                             tile type D<br />
                             {this.state.tilesCount[3]}
                         </button>
